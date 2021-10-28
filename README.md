@@ -2,7 +2,7 @@
 Determines the MTU size for a sequence of IP addresses or all IP addresses between source and destination IP addresses.
 
 Shout out to nickrusso42518 for the core logic behind the mtu discovery. Please visit his github page and leave him a
-star https://github.com/tjhennessy/net-tools/tree/master/path_mtu_discovery.
+star https://github.com/nickrusso42518/net-tools/tree/master/path_mtu_discovery.
 
 ## Setup
 
