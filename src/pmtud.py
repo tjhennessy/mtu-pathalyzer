@@ -34,7 +34,7 @@ def find_mtu(lower, upper, retry, timeout, dest_ip):
 
     # Compute midpoint value with floor division
     mid = (upper + lower) // 2
-    print(f"MTU {mid} (lower {lower} / upper {upper}) ..", end="", flush=True)
+    print(f"{dest_ip}: MTU {mid} (lower {lower} / upper {upper}) ..", end="", flush=True)
 
     # Send ICMP echo-request (ping) and await a single echo-reply
     for _ in range(retry):

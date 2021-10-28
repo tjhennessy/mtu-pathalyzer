@@ -32,12 +32,16 @@ def find_each_mtu(**kwargs):
     if kwargs['path_discover']:
         # run traceroute for dest and store each ip
         ip_list = _traceroute(kwargs['dest_ip'])
+    
+    if len(ip_list) < 1:
+        # case where just destination ip given
+        ip_list.append(kwargs['dest_ip'])
 
     results = _get_results(kwargs['lower'],
                 kwargs['upper'],
                 kwargs['retry'],
                 kwargs['timeout'],
-                kwargs['dest_ip'])
+                ip_list)
 
     return results
 
@@ -76,7 +80,7 @@ def _traceroute(dest_ip):
     Note: only adds valid IP addresses, so if filtering occurs along
     the route and does not return an IP that hop will not be included.
     
-    Note: If MAX_HOPS is exceeded route will not be complete.
+    Note: if MAX_HOPS is exceeded route will not be complete.
     
     Solution adapted from https://montcs.bloomu.edu/VM-LAN/LAN20.asn.traceroutes.html
     
@@ -177,14 +181,17 @@ def _extended_args():
         "-f", "--file", type=str, help="path to CSV file of IPv4/v6"
     )
     parser.add_argument(
-        "-p", "--path_discover", type=bool, 
-        help="toggle traceroute to find hops in path to dest",
-        default=False
+        "-p", "--path_discover", action='store_true',
+        help="toggle traceroute to find hops in path to dest"
     )
+
     args_d = vars(pmtud._process_args(parser))
+
     return args_d
 
 
 if __name__ == '__main__':
     args_d = _extended_args()
-    print(find_each_mtu(**args_d))
+    results = find_each_mtu(**args_d)
+    print("\n\nResults: ")
+    print(results)
