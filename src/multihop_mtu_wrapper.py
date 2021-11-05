@@ -35,6 +35,7 @@ def find_each_mtu(**kwargs):
     
     if len(ip_list) < 1:
         # case where just destination ip given
+        # TODO: need to make sure IP is valid before appending
         ip_list.append(kwargs['dest_ip'])
 
     results = _get_results(kwargs['lower'],
@@ -68,6 +69,7 @@ def _get_results(lower, upper, retry, timeout, ip_list):
                 retry,
                 timeout,
                 ip)
+
         results.append(f"{ip} mtu: {mtu}")
 
     return results
@@ -95,7 +97,7 @@ def _traceroute(dest_ip):
     for n in range(1, MAX_HOPS+1):
         ip = IP(dst=dest_ip, ttl=n, id=RandShort())
         resp = sr1(ip/ICMP(), retry=1, timeout=3, verbose=False)
-        if _is_valid_ip(resp.src):
+        if resp and _is_valid_ip(resp.src):
             hops.append(resp.src)
         if resp and resp.src == dest_ip:
             break
