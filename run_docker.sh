@@ -4,4 +4,4 @@ set -e
 
 sudo docker build -t docker-mtu-pathalyzer .
 
-# run container interactively
+docker run -it docker-mtu-pathalyzer bash
